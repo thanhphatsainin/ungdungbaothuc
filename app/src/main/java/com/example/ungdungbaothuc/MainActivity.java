@@ -72,13 +72,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         listViewbaothuc.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                clear();
-                baothucAdapter.notifyDataSetChanged();
-                return false;
+                Toast.makeText(MainActivity.this,"Set onLong",Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+        listViewbaothuc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainActivity.this,"set onClick",Toast.LENGTH_SHORT).show();
             }
         });
 

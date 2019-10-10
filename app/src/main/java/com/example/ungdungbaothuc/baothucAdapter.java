@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -63,7 +64,14 @@ public class baothucAdapter extends BaseAdapter{
         baothuc bt = BTList.get(position);
         holder.txtGio.setText(bt.getGio());
         holder.txtGhiChu.setText(bt.getGhichu());
-
+        /*
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,"alo",Toast.LENGTH_SHORT).show();
+            }
+        });
+        */
         return convertView;
     }
 }
