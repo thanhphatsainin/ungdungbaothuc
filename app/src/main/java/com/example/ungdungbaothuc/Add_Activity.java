@@ -2,12 +2,14 @@ package com.example.ungdungbaothuc;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Add_Activity extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,24 +37,30 @@ public class Add_Activity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Intent intent;
+        String s = editTextGio.getText().toString();
 
-        switch (v.getId()){
-            case R.id.buttonAdd:{
-                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME, MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                int pos = sharedPreferences.getInt("count", 0);
-                editor.putString("Gio" + pos, editTextGio.getText().toString());
-                editor.putString("Ghi chu" + pos, editTextGhiChu.getText().toString());
-                editor.putInt("count", pos + 1);
-                editor.apply();
-                intent = new Intent(Add_Activity.this, MainActivity.class);
-                startActivity(intent);
-                break;
-            }
-            case R.id.buttonCancel:{
-                intent = new Intent(Add_Activity.this,MainActivity.class);
-                startActivity(intent);
-                break;
+        if (s == " "){
+            Toast.makeText(this, "Yêu cầu phải nhập giờ.", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            switch (v.getId()) {
+                case R.id.buttonAdd: {
+                    SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    int pos = sharedPreferences.getInt("count", 0);
+                    editor.putString("Gio" + pos, editTextGio.getText().toString());
+                    editor.putString("Ghi chu" + pos, editTextGhiChu.getText().toString());
+                    editor.putInt("count", pos + 1);
+                    editor.apply();
+                    intent = new Intent(Add_Activity.this, MainActivity.class);
+                    startActivity(intent);
+                    break;
+                }
+                case R.id.buttonCancel: {
+                    intent = new Intent(Add_Activity.this, MainActivity.class);
+                    startActivity(intent);
+                    break;
+                }
             }
         }
     }

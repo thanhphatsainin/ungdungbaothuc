@@ -1,9 +1,11 @@
 package com.example.ungdungbaothuc;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -45,11 +48,11 @@ public class MainActivity extends AppCompatActivity {
         listViewbaothuc = findViewById(R.id.listViewBaothuc);
         arrayListBaoThuc  = new ArrayList<>();
 
-        arrayListBaoThuc.add(new baothuc("6:40","Dạy đi học.",0));
-        arrayListBaoThuc.add(new baothuc("7:40","Dạy đi học k .",0));
+//        arrayListBaoThuc.add(new baothuc("6:40","Dạy đi học.",0));
+//        arrayListBaoThuc.add(new baothuc("7:40","Dạy đi học k .",0));
 
-//        baothucAdapter = new baothucAdapter(this,R.layout.dongbaothuc,arrayListBaoThuc);
-//        listViewbaothuc.setAdapter(baothucAdapter);
+        baothucAdapter = new baothucAdapter(this,R.layout.dongbaothuc,arrayListBaoThuc);
+        listViewbaothuc.setAdapter(baothucAdapter);
 
     }
 
@@ -72,21 +75,45 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        listViewbaothuc.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this,"Set onLong",Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
+
         listViewbaothuc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(MainActivity.this,"set onClick",Toast.LENGTH_SHORT).show();
             }
         });
+        listViewbaothuc.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                xacnhanxoa(position);
+                return true;
+            }
+        });
 
     }
+
+    public  void xacnhanxoa(final int position){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Thông báo!");
+        alertDialog.setIcon(R.mipmap.ic_launcher);
+        alertDialog.setMessage("Bạn có chắc chắn muốn xóa báo thức này không?");
+        alertDialog.setPositiveButton("Không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alertDialog.setNegativeButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                arrayListBaoThuc.remove(position);
+                baothucAdapter.notifyDataSetChanged();
+                clear();
+            }
+        });
+        alertDialog.show();
+    }
+
+
     public void initTimePicker(){
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
@@ -112,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         Log.d("A","onStop");
-        arrayListBaoThuc.clear();
+        //arrayListBaoThuc.clear();
         super.onStop();
     }
 

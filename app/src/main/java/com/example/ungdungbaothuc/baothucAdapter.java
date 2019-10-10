@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,14 +65,16 @@ public class baothucAdapter extends BaseAdapter{
         baothuc bt = BTList.get(position);
         holder.txtGio.setText(bt.getGio());
         holder.txtGhiChu.setText(bt.getGhichu());
-        /*
-        convertView.setOnClickListener(new View.OnClickListener() {
+
+        holder.Switchbaothuc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(context,"alo",Toast.LENGTH_SHORT).show();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    Toast.makeText(context, "Bật báo thức", Toast.LENGTH_SHORT).show();
+                }
+                else Toast.makeText(context,"Tắt báo thức",Toast.LENGTH_SHORT).show();
             }
         });
-        */
         return convertView;
     }
 }
