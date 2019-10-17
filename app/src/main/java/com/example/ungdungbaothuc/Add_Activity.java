@@ -2,6 +2,7 @@ package com.example.ungdungbaothuc;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,7 +10,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class Add_Activity extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,6 +37,12 @@ public class Add_Activity extends AppCompatActivity implements View.OnClickListe
         buttonCancel = findViewById(R.id.buttonCancel);
         buttonAdd.setOnClickListener(this);
         buttonCancel.setOnClickListener(this);
+        editTextGio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chongio();
+            }
+        });
     }
 
     @Override
@@ -39,10 +50,6 @@ public class Add_Activity extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         String s = editTextGio.getText().toString();
 
-        if (s == " "){
-            Toast.makeText(this, "Yêu cầu phải nhập giờ.", Toast.LENGTH_SHORT).show();
-        }
-        else {
             switch (v.getId()) {
                 case R.id.buttonAdd: {
                     SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME, MODE_PRIVATE);
@@ -61,10 +68,21 @@ public class Add_Activity extends AppCompatActivity implements View.OnClickListe
                     startActivity(intent);
                     break;
                 }
-            }
+
         }
     }
-
-
-
+    public void chongio(){
+        final Calendar calendar = Calendar.getInstance();
+        int gio = calendar.get(Calendar.HOUR_OF_DAY);
+        int phut = calendar.get(Calendar.MINUTE);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                calendar.set(0,0,0,hourOfDay,minute);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+                editTextGio.setText(simpleDateFormat.format(calendar.getTime()));
+            }
+        }, gio, phut, true );
+        timePickerDialog.show();
+    }
 }
